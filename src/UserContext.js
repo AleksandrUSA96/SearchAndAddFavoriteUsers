@@ -1,16 +1,17 @@
 import React from "react";
 
-export const UserContext = React.createContext({
-    transmittedUser: {},
-    transferUser: (e, transmittedUser) => {
-        transmittedUser = e
-        console.log(transmittedUser)
-    }
-});
+export const UserContext = React.createContext();
 
 const Provider = (props) => {
-    console.log(props)
-    return <UserContext.Provider value={props}>
+    return <UserContext.Provider value={{
+        transmittedUser: null,
+        transmittedIndexGroup: null,
+        dragStartHandler: (e, user, usersGroup, transmittedUser, transmittedIndexGroup) => {
+            transmittedUser = user;
+            transmittedIndexGroup = usersGroup;
+            console.log(transmittedUser);
+        }
+    }}>
         {props.children}
     </UserContext.Provider>
 }

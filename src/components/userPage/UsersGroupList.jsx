@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getUsers} from "../../api/api";
 import {Box, CircularProgress, Container} from "@material-ui/core";
 import UsersGroup from "./UsersGroup";
@@ -6,7 +6,7 @@ import Search from "../common/Search";
 import FavoriteUsersList from "./FavoriteUsersList";
 import Provider from "../../UserContext";
 
-let UsersGroupList = React.memo((props) => {
+let UsersGroupList = React.memo(() => {
     const [usersGroup, setUsers] = useState([]);
     const [isFetching, setToggleFetching] = useState(false);
 
@@ -37,18 +37,17 @@ let UsersGroupList = React.memo((props) => {
     }, [])
 
     return (
-        <Provider value={props}>
+        <Provider>
             <>
                 {usersGroup.length === 0 ? <CircularProgress/> : null}
                 <Container maxWidth="md" spacing={3}>
                     <Search/>
                     <Box display={'flex'}>
                         <Box width="50%">
-
                             {
                                 usersGroup.map((group, index) => <UsersGroup group={group}
                                                                              key={index}
-                                                                             usersGroup={usersGroup.length}
+                                                                             index={index}
                                 />)
                             }
                         </Box>

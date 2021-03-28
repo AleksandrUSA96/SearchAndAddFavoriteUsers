@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-let UsersGroup = React.memo(({group, usersGroup}) => {
+let UsersGroup = React.memo(({group, index}) => {
     const classes = useStyles();
 
     return (
@@ -23,6 +23,7 @@ let UsersGroup = React.memo(({group, usersGroup}) => {
             {
                 group.map(user => <UserItem user={user}
                                             key={user.login.uuid}
+                                            index={index}
 
                 />)
             }
