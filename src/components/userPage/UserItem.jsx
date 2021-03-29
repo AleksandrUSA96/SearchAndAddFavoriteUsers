@@ -3,20 +3,20 @@ import {Avatar, Box} from '@material-ui/core';
 import {UserContext} from "../../UserContext";
 
 const UserItem = ({user, index}) => {
-    const {
-        dragStartHandler,
+    // const {
+    //     dragStartHandler,
         // dragEndHandler,
         // dragOverHandler,
         // dragLeaveHandler,
         // dragDropHandler
-    } = useContext(UserContext)
+    // } = useContext(UserContext)
 
     return (
         <Box style={{cursor: 'pointer'}} draggable={true} display={'flex'} direction={'row'} alignItems={'center'}
              border={1}
              borderColor={'grey.200'}
              borderRadius={5} my={1} p={1}
-             onDragStart={(e) => dragStartHandler(e, user, index)}
+             // onDragStart={(e) => dragStartHandler(e, user, index)}
              // onDragEnd={(e) => dragEndHandler(e)}
              // onDragOver={(e) => dragOverHandler(e, user, index)}
              // onDragLeave={(e) => dragLeaveHandler(e)}

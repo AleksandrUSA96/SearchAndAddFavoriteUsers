@@ -1,12 +1,12 @@
 import './App.css';
 import Layout from "./components/common/Layout";
-import UsersGroupList from "./components/userPage/UsersGroupList";
+import UserPage from "./components/userPage/UserPage";
 
 function App() {
     return (
         <div className="App">
             <Layout>
-                <UsersGroupList />
+                <UserPage />
             </Layout>
         </div>
     );

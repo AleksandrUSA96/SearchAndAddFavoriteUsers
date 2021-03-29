@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Avatar, Box} from "@material-ui/core";
+import {Box} from "@material-ui/core";
 import {UserContext} from "../../UserContext";
 
 
