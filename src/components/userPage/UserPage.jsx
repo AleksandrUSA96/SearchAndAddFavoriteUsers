@@ -3,8 +3,8 @@ import {getUsers} from "../../api/api";
 import {Box, CircularProgress, Container} from "@material-ui/core";
 import Search from "../common/Search";
 import FavoriteUsersList from "./FavoriteUsersList";
-import Provider from "../../UserContext";
 import UsersGroupList from "./UsersGroupList";
+import UserContext from "../../UserContext";
 
 let UserPage = React.memo(() => {
     const [usersGroup, setUsers] = useState([]);
@@ -37,8 +37,41 @@ let UserPage = React.memo(() => {
         setToggleFetching(true);
     }, [])
 
+    const [testUser, setTestUser] = useState();
+
+    const dragStartHandler = (e, user, index) => {
+        console.log('dragStartHandler event: ', e);
+        console.log('dragStartHandler user: ', user);
+        console.log('dragStartHandler index: ', index);
+    }
+
+    const dragEndHandler = (e) => {
+        // console.log('dragEndHandler  Event: ', e);
+    }
+
+    const dragOverHandler = (e) => {
+        e.preventDefault();
+        // console.log('dragOverHandler event: ', e);
+    }
+
+    const dragLeaveHandler = (e) => {
+        // console.log('dragLeaveHandler Event: ', e);
+    }
+
+    const dragDropHandler = (e, user, index) => {
+        e.preventDefault();
+        setTestUser(user);
+    }
+
     return (
-        <Provider>
+        <UserContext.Provider value={{
+            testUser,
+            dragStartHandler,
+            dragEndHandler,
+            dragOverHandler,
+            dragLeaveHandler,
+            dragDropHandler
+        }}>
             <>
                 {usersGroup.length === 0 ? <CircularProgress/> : null}
                 <Container maxWidth="md" spacing={3}>
@@ -49,7 +82,7 @@ let UserPage = React.memo(() => {
                     </Box>
                 </Container>
             </>
-        </Provider>
+        </UserContext.Provider>
     )
 });
 

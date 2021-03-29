@@ -1,16 +1,35 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useReducer, useState} from "react";
 import {Box} from "@material-ui/core";
-import {UserContext} from "../../UserContext";
+import UserContext from "../../UserContext";
+import FavoriteUserItem from "./FavoriteUserItem";
+import {makeStyles} from "@material-ui/styles";
 
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'addUser':
+            return [
+                ...state,
+                action.payload
+            ]
+        default:
+            return state
+    }
+}
 
-let FavoriteUsersList = () => {
-    const {transmittedUser} = useContext(UserContext)
-    const [favoriteUser, setFavoriteUser] = useState(null);
-    console.log(transmittedUser);
+const useStyles = makeStyles(() => ({
+    flexDirection: {
+        flexDirection: 'column',
+    }
+}));
+
+const FavoriteUsersList = () => {
+    const classes = useStyles();
+    const {testUser} = useContext(UserContext)
+    const [state, distpatch] = useReducer(reducer, [])
+
     useEffect(() => {
-        setFavoriteUser(transmittedUser);
-        console.log(favoriteUser);
-    }, [transmittedUser])
+        if (testUser) distpatch({type: 'addUser', payload: testUser});
+    }, [testUser])
 
     return (
         <Box width="50%">
@@ -19,23 +38,13 @@ let FavoriteUsersList = () => {
                  px={2} py={1.4} fontFamily="Roboto, Helvetica, Arial, sans-serif" lineHeight={1.75}>
                 Избранные пользователи
             </Box>
-            <Box display={'flex'} direction={'row'} alignItems={'center'} border={1} borderColor={'grey.200'}
+            <Box className={classes.flexDirection} display={'flex'} border={1} borderColor={'grey.200'}
                  p={1}>
-                {/*<Box style={{cursor: 'pointer'}} draggable={true} display={'flex'} direction={'row'} alignItems={'center'}*/}
-                {/*     border={1}*/}
-                {/*     borderColor={'grey.200'}*/}
-                {/*     borderRadius={5} my={1} p={1}*/}
-                {/*>*/}
-                {/*    <Box mr={1}>*/}
-                {/*        <Avatar src={favoriteUser.picture.thumbnail}/>*/}
-                {/*    </Box>*/}
-                {/*    <div>*/}
-                {/*        <Box align={'left'} fontSize={14}>{favoriteUser.name.title} {favoriteUser.name.first} {favoriteUser.name.last},*/}
-                {/*            дата регистрации: {favoriteUser.registered.date.slice(0, 10)} </Box>*/}
-                {/*        <Box align={'left'} fontSize={14}>Email: {favoriteUser.email}</Box>*/}
-                {/*    </div>*/}
-                {/*</Box>*/}
-
+                {state.length !== 0 ?
+                    state.map(user => <FavoriteUserItem user={user}
+                                                        key={user.login.uuid}
+                    />)
+                    : ''}
             </Box>
         </Box>
     )
