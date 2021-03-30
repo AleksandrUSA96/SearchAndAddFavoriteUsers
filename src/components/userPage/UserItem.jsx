@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {Avatar, Box} from '@material-ui/core';
 import UserContext from "../../UserContext";
 
-const UserItem = ({user, index}) => {
+const UserItem = ({user, id, idGroup}) => {
     const {
         dragStartHandler,
         dragEndHandler,
@@ -16,11 +16,11 @@ const UserItem = ({user, index}) => {
              border={1}
              borderColor={'grey.200'}
              borderRadius={5} my={1} p={1}
-             onDragStart={(e) => dragStartHandler(e, user, index)}
+             onDragStart={(e) => dragStartHandler(e, user, id, idGroup)}
              onDragEnd={(e) => dragEndHandler(e)}
              onDragOver={(e) => dragOverHandler(e)}
              onDragLeave={(e) => dragLeaveHandler(e)}
-             onDrop={(e) => dragDropHandler(e, user, index)}
+             onDrop={(e) => dragDropHandler(e, user, id, idGroup)}
         >
             <Box mr={1}>
                 <Avatar src={user.picture.thumbnail}/>

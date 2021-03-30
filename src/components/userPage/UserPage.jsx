@@ -9,7 +9,6 @@ import UserContext from "../../UserContext";
 let UserPage = React.memo(() => {
     const [usersGroup, setUsers] = useState([]);
     const [isFetching, setToggleFetching] = useState(false);
-    console.log(usersGroup);
 
     useEffect(() => {
         getUsers().then(result => setUsers(() => {
@@ -30,7 +29,7 @@ let UserPage = React.memo(() => {
             let userGroup = [];
             let countGroups = Math.ceil(arrayUsers.length / size);
             for (let i = 0; i < countGroups; i++) {
-                userGroup[i] = arrayUsers.slice((i * size), (i * size) + size);
+                userGroup[i] = {id: i, userGroup: arrayUsers.slice((i * size), (i * size) + size)};
             }
             return userGroup
         }));
@@ -39,10 +38,11 @@ let UserPage = React.memo(() => {
 
     const [testUser, setTestUser] = useState();
 
-    const dragStartHandler = (e, user, index) => {
+    const dragStartHandler = (e, user, id) => {
         console.log('dragStartHandler event: ', e);
         console.log('dragStartHandler user: ', user);
-        console.log('dragStartHandler index: ', index);
+        console.log('dragStartHandler id: ', id);
+        // setTestUser(user);
     }
 
     const dragEndHandler = (e) => {
@@ -58,10 +58,17 @@ let UserPage = React.memo(() => {
         // console.log('dragLeaveHandler Event: ', e);
     }
 
-    const dragDropHandler = (e, user, index) => {
+    const dragDropHandler = (e, user, id, idGroup) => {
         e.preventDefault();
+        let currentObjectGroup = usersGroup.find(group => group.id === idGroup);
+        currentObjectGroup.userGroup.splice(currentUser => currentUser.login.uuid !== id, 1);
+        console.log(currentObjectGroup);
+        console.log(usersGroup);
+        let newUsersGroup = [...usersGroup];
+        setUsers([...newUsersGroup])
         setTestUser(user);
     }
+    console.log(usersGroup);
 
     return (
         <UserContext.Provider value={{

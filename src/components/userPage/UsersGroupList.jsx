@@ -7,9 +7,8 @@ let UsersGroupList = ({usersGroup}) => {
         <>
             <Box width="50%">
                 {
-                    usersGroup.map((group, index) => <UsersGroup group={group}
-                                                                 key={index}
-                                                                 index={index}
+                    usersGroup.map((groupObject, index) => <UsersGroup groupObject={groupObject}
+                                                                       key={index}
                     />)
                 }
             </Box>
