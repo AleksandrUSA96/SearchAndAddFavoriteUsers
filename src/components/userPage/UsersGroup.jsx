@@ -9,28 +9,27 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-let UsersGroup = React.memo(({groupObject}) => {
+let UsersGroup = ({groupObject}) => {
     const classes = useStyles();
     return (
         <Accordion TransitionProps={{unmountOnExit: true}}>
             <Typography variant="subtitle1" color="textPrimary">
                 <AccordionSummary>
-                    Группа пользователей от -- до --
+                    Группа пользователей {groupObject.id} года регистрации
                 </AccordionSummary>
             </Typography>
             <AccordionDetails className={classes.flexDirection}>
                 {
-                    groupObject.userGroup.map(user => <UserItem user={user}
+                    groupObject.group.map(user => <UserItem user={user}
                                                                 key={user.login.uuid}
                                                                 id={user.login.uuid}
                                                                 idGroup={groupObject.id}
-
                     />)
                 }
             </AccordionDetails>
         </Accordion>
     )
-});
+};
 
 
 export default UsersGroup;

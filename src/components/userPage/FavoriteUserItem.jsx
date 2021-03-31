@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Avatar, Box} from "@material-ui/core";
+import UserContext from "../../UserContext";
 
 const FavoriteUserItem = ({user}) => {
     return (

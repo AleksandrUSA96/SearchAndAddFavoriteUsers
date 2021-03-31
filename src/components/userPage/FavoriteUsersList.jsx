@@ -25,11 +25,13 @@ const useStyles = makeStyles(() => ({
 const FavoriteUsersList = () => {
     const classes = useStyles();
     const {testUser} = useContext(UserContext)
+    const {testUser2} = useContext(UserContext)
+    const {dragOverHandler, dragDropHandler, dragEndHandler} = useContext(UserContext)
     const [state, distpatch] = useReducer(reducer, [])
 
     useEffect(() => {
-        if (testUser) distpatch({type: 'addUser', payload: testUser});
-    }, [testUser])
+        if (testUser2) distpatch({type: 'addUser', payload: testUser2});
+    }, [testUser2])
 
     return (
         <Box width="50%">
@@ -39,7 +41,11 @@ const FavoriteUsersList = () => {
                 Избранные пользователи
             </Box>
             <Box className={classes.flexDirection} display={'flex'} border={1} borderColor={'grey.200'}
-                 p={1}>
+                 p={1}
+                 onDragOver={(e) => dragOverHandler(e)}
+                 onDrop={(e) => dragDropHandler(e, testUser)}
+                 onDragEnd={(e) => dragEndHandler(e)}
+            >
                 {state.length !== 0 ?
                     state.map(user => <FavoriteUserItem user={user}
                                                         key={user.login.uuid}

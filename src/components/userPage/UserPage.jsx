@@ -6,7 +6,7 @@ import FavoriteUsersList from "./FavoriteUsersList";
 import UsersGroupList from "./UsersGroupList";
 import UserContext from "../../UserContext";
 
-let UserPage = React.memo(() => {
+const UserPage = React.memo(() => {
     const [usersGroup, setUsers] = useState([]);
     const [isFetching, setToggleFetching] = useState(false);
 
@@ -16,68 +16,76 @@ let UserPage = React.memo(() => {
             arrayUsers.sort((a, b) => {
                 const A = a.registered.date.slice(0, 10);
                 const B = b.registered.date.slice(0, 10);
-
                 let comparison = 0;
-                if (A > B) {
-                    comparison = 1;
-                } else if (A < B) {
-                    comparison = -1;
-                }
+                comparison = A > B ? 1 : -1;
                 return comparison;
             })
-            let size = 10;
-            let userGroup = [];
-            let countGroups = Math.ceil(arrayUsers.length / size);
-            for (let i = 0; i < countGroups; i++) {
-                userGroup[i] = {id: i, userGroup: arrayUsers.slice((i * size), (i * size) + size)};
-            }
+            const userGroup = [];
+            let prevYear;
+            arrayUsers.reduce((userGroup, user) => {
+                let currentYear = Number(user.registered.date.slice(0, 4))
+                if (prevYear !== currentYear) {
+                    prevYear = currentYear;
+                    userGroup.push({id: currentYear, group: [user]})
+                } else {
+                    let currentGroup = userGroup.find(group => group.id === currentYear).group;
+                    currentGroup.push(user);
+                }
+                return userGroup
+            }, userGroup)
             return userGroup
         }));
         setToggleFetching(true);
     }, [])
 
     const [testUser, setTestUser] = useState();
+    const [testUser2, setTestUser2] = useState();
 
-    const dragStartHandler = (e, user, id) => {
-        console.log('dragStartHandler event: ', e);
-        console.log('dragStartHandler user: ', user);
-        console.log('dragStartHandler id: ', id);
-        // setTestUser(user);
+    const dragStartHandler = (e, objectUserWithGroupId) => {
+        if (!e.target.parentElement.contains(e.target)) {
+            setTestUser(objectUserWithGroupId);
+        }
     }
 
     const dragEndHandler = (e) => {
-        // console.log('dragEndHandler  Event: ', e);
+
     }
 
     const dragOverHandler = (e) => {
         e.preventDefault();
-        // console.log('dragOverHandler event: ', e);
+        console.log('вышел за пределы твоей мамки');
+
     }
 
     const dragLeaveHandler = (e) => {
-        // console.log('dragLeaveHandler Event: ', e);
     }
 
-    const dragDropHandler = (e, user, id, idGroup) => {
+    const dragDropHandler = (e, objectUserWithGroupId) => {
         e.preventDefault();
-        let currentObjectGroup = usersGroup.find(group => group.id === idGroup);
-        currentObjectGroup.userGroup.splice(currentUser => currentUser.login.uuid !== id, 1);
-        console.log(currentObjectGroup);
-        console.log(usersGroup);
-        let newUsersGroup = [...usersGroup];
-        setUsers([...newUsersGroup])
-        setTestUser(user);
+        let currentObjectGroup = usersGroup.find(group => group.id === objectUserWithGroupId.idGroup);
+        let currentIndexUser = currentObjectGroup.group.indexOf(objectUserWithGroupId.user);
+        if (currentIndexUser !== -1) {
+            currentObjectGroup.group.splice(currentIndexUser, 1);
+            setUsers(usersGroup);
+            setTestUser2(objectUserWithGroupId.user);
+        }
     }
-    console.log(usersGroup);
+    const dragDropHandler2 = (e) => {
+        e.preventDefault();
+        setTestUser(null)
+        console.log('Stay!');
+    }
 
     return (
         <UserContext.Provider value={{
             testUser,
+            testUser2,
             dragStartHandler,
             dragEndHandler,
             dragOverHandler,
             dragLeaveHandler,
-            dragDropHandler
+            dragDropHandler,
+            dragDropHandler2
         }}>
             <>
                 {usersGroup.length === 0 ? <CircularProgress/> : null}

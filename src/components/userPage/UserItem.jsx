@@ -6,21 +6,18 @@ const UserItem = ({user, id, idGroup}) => {
     const {
         dragStartHandler,
         dragEndHandler,
-        dragOverHandler,
         dragLeaveHandler,
-        dragDropHandler
+        dragDropHandler2
     } = useContext(UserContext)
 
     return (
-        <Box style={{cursor: 'pointer'}} draggable={true} display={'flex'} direction={'row'} alignItems={'center'}
+        <Box dropstyle={{cursor: 'pointer'}} draggable={true} display={'flex'} direction={'row'} alignItems={'center'}
              border={1}
              borderColor={'grey.200'}
              borderRadius={5} my={1} p={1}
-             onDragStart={(e) => dragStartHandler(e, user, id, idGroup)}
+             onDragStart={(e) => dragStartHandler(e, {user, id, idGroup})}
              onDragEnd={(e) => dragEndHandler(e)}
-             onDragOver={(e) => dragOverHandler(e)}
-             onDragLeave={(e) => dragLeaveHandler(e)}
-             onDrop={(e) => dragDropHandler(e, user, id, idGroup)}
+             onDrop={(e) => dragDropHandler2(e)}
         >
             <Box mr={1}>
                 <Avatar src={user.picture.thumbnail}/>
