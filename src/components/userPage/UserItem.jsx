@@ -6,8 +6,7 @@ const UserItem = ({user, id, idGroup}) => {
     const {
         dragStartHandler,
         dragEndHandler,
-        dragLeaveHandler,
-        dragDropHandler2
+        dragOverHandler
     } = useContext(UserContext)
 
     return (
@@ -16,8 +15,8 @@ const UserItem = ({user, id, idGroup}) => {
              borderColor={'grey.200'}
              borderRadius={5} my={1} p={1}
              onDragStart={(e) => dragStartHandler(e, {user, id, idGroup})}
+             onDragOver={(e) => dragOverHandler(e)}
              onDragEnd={(e) => dragEndHandler(e)}
-             onDrop={(e) => dragDropHandler2(e)}
         >
             <Box mr={1}>
                 <Avatar src={user.picture.thumbnail}/>

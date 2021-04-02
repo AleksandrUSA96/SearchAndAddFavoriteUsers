@@ -6,7 +6,7 @@ import FavoriteUsersList from "./FavoriteUsersList";
 import UsersGroupList from "./UsersGroupList";
 import UserContext from "../../UserContext";
 
-const UserPage = React.memo(() => {
+const UserPage = () => {
     const [usersGroup, setUsers] = useState([]);
     const [isFetching, setToggleFetching] = useState(false);
 
@@ -39,53 +39,51 @@ const UserPage = React.memo(() => {
     }, [])
 
     const [testUser, setTestUser] = useState();
-    const [testUser2, setTestUser2] = useState();
 
     const dragStartHandler = (e, objectUserWithGroupId) => {
-        if (!e.target.parentElement.contains(e.target)) {
-            setTestUser(objectUserWithGroupId);
-        }
+        setTestUser(objectUserWithGroupId);
+        const favoriteList = document.getElementById('favoriteList');
+        e.target.style.transition = "all .3s ease-in-out"
+        e.target.style.backgroundColor = '#eeeeee';
+        e.target.style.opacity = .5;
+        favoriteList.style.transition = 'all .3s ease-in-out';
+        favoriteList.style.boxShadow = 'inset rgb(63 81 181) 0px 0px 10px 0px';
     }
 
-    const dragEndHandler = (e) => {
-
+    const dragStartFavoriteUserHandel = (e, user) => {
+        setTestUser(user);
     }
 
     const dragOverHandler = (e) => {
         e.preventDefault();
-        console.log('вышел за пределы твоей мамки');
-
     }
 
-    const dragLeaveHandler = (e) => {
+    const dragEndHandler = (e) => {
+        setTestUser(null)
+        e.target.style.backgroundColor = '#ffffff';
+        e.target.style.opacity = 1;
     }
 
     const dragDropHandler = (e, objectUserWithGroupId) => {
+        debugger
         e.preventDefault();
         let currentObjectGroup = usersGroup.find(group => group.id === objectUserWithGroupId.idGroup);
         let currentIndexUser = currentObjectGroup.group.indexOf(objectUserWithGroupId.user);
         if (currentIndexUser !== -1) {
             currentObjectGroup.group.splice(currentIndexUser, 1);
             setUsers(usersGroup);
-            setTestUser2(objectUserWithGroupId.user);
+            setTestUser(null)
         }
-    }
-    const dragDropHandler2 = (e) => {
-        e.preventDefault();
-        setTestUser(null)
-        console.log('Stay!');
     }
 
     return (
         <UserContext.Provider value={{
             testUser,
-            testUser2,
             dragStartHandler,
-            dragEndHandler,
             dragOverHandler,
-            dragLeaveHandler,
             dragDropHandler,
-            dragDropHandler2
+            dragEndHandler,
+            dragStartFavoriteUserHandel
         }}>
             <>
                 {usersGroup.length === 0 ? <CircularProgress/> : null}
@@ -93,12 +91,12 @@ const UserPage = React.memo(() => {
                     <Search/>
                     <Box display={'flex'}>
                         <UsersGroupList usersGroup={usersGroup}/>
-                        <FavoriteUsersList width="50%"/>
+                        <FavoriteUsersList width="50%" rer={testUser}/>
                     </Box>
                 </Container>
             </>
         </UserContext.Provider>
     )
-});
+};
 
 export default UserPage;

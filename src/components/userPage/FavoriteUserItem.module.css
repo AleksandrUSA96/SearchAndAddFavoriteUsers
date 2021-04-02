@@ -1,0 +1,23 @@
+.item {
+    transition: all .3s ease-in-out;
+    animation-duration: .5s;
+    animation-name: uprise;
+}
+
+.item div {
+    background-color: inherit;
+    animation-duration: .5s;
+    animation-name: uprise;
+}
+
+@keyframes uprise {
+    from {
+        background-color: #eeeeee;
+        opacity: 0;
+    }
+
+    to {
+        background-color: #ffffff;
+        opacity: 1;
+    }
+}
