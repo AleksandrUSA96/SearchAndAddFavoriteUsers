@@ -2,8 +2,8 @@ import React, {useContext, useReducer, useState} from "react";
 import {Box} from "@material-ui/core";
 import UserContext from "../../UserContext";
 import FavoriteUserItem from "./FavoriteUserItem";
-import {makeStyles} from "@material-ui/styles";
 import Style from './FavoriteUserItem.module.css';
+import {useStyles} from "../common/useStyles";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -13,18 +13,11 @@ const reducer = (state, action) => {
                 action.payload
             ]
         case 'changeUser':
-            debugger
             return action.payload
         default:
             return state
     }
 }
-
-const useStyles = makeStyles(() => ({
-    flexDirection: {
-        flexDirection: 'column',
-    }
-}));
 
 const FavoriteUsersList = ({rer}) => {
     const classes = useStyles();
@@ -36,21 +29,7 @@ const FavoriteUsersList = ({rer}) => {
         setCurrentItem(item);
     }
 
-    const onDropSwapUsersInState = (dropUser) => {
-        console.log('выполняюсь тут как бы вотэээ')
-
-            const currentItemIndex = state.indexOf(currentItem);
-            const dropUserIndex = state.indexOf(dropUser);
-            state.splice(dropUserIndex, 1, currentItem);
-            state.splice(currentItemIndex, 1, dropUser);
-            distpatch({type: 'changeUser', payload: state});
-            setCurrentItem(null);
-
-    }
-
     const dropHandler = (e, rer) => {
-        console.log('Я выполняюсь')
-        debugger
         if (rer !== null) {
             dragDropHandler(e, rer)
             distpatch({type: 'addUser', payload: rer.user});
@@ -63,6 +42,20 @@ const FavoriteUsersList = ({rer}) => {
 
             const favoriteList = document.getElementById('favoriteList');
             favoriteList.style.boxShadow = 'none';
+        }
+    }
+
+    const onDropSwapUsersInState = (e, dropUser) => {
+        if (currentItem) {
+            const currentItemIndex = state.indexOf(currentItem);
+            const dropUserIndex = state.indexOf(dropUser);
+            state.splice(dropUserIndex, 1, currentItem);
+            state.splice(currentItemIndex, 1, dropUser);
+            distpatch({type: 'changeUser', payload: state});
+            let eTargetParent = e.target.closest('.' + Style.item)
+            e.target.style.backgroundColor = '#ffffff';
+            eTargetParent.style.backgroundColor = '#ffffff';
+            setCurrentItem(null);
         }
     }
 

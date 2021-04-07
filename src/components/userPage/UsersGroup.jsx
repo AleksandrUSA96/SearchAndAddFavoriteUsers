@@ -1,13 +1,7 @@
 import React from "react";
 import UserItem from "./UserItem";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@material-ui/core";
-import {makeStyles} from "@material-ui/styles";
-
-const useStyles = makeStyles(() => ({
-    flexDirection: {
-        flexDirection: 'column',
-    }
-}));
+import {useStyles} from "../common/useStyles";
 
 let UsersGroup = ({groupObject}) => {
     const classes = useStyles();
@@ -15,7 +9,7 @@ let UsersGroup = ({groupObject}) => {
         <Accordion TransitionProps={{unmountOnExit: true}}>
             <Typography variant="subtitle1" color="textPrimary">
                 <AccordionSummary>
-                    Группа пользователей {groupObject.id} года регистрации
+                    Дата регистрации: {groupObject.id.slice(0,4)}.{groupObject.id.slice(5,7)}
                 </AccordionSummary>
             </Typography>
             <AccordionDetails className={classes.flexDirection}>

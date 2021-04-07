@@ -10,7 +10,7 @@ const FavoriteUserItem = ({user, onDragStartItemHandler, onDropSwapUsersInState}
              borderColor={'grey.200'}
              borderRadius={5} my={1} p={1}
              onDragStart={(e) => onDragStartItemHandler(user)}
-             onDrop={(e) => onDropSwapUsersInState(user)}
+             onDrop={(e) => onDropSwapUsersInState(e, user)}
         >
             <Box mr={1}>
                 <Avatar src={user.picture.thumbnail}/>

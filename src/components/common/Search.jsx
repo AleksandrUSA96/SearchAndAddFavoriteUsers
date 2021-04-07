@@ -1,11 +1,11 @@
-import React from "react";
-import {FormControl, Input, InputLabel} from "@material-ui/core";
+import React from 'react';
+import {FormControl, Input, InputLabel} from '@material-ui/core';
 
-let Search = () => {
+let Search = ({searchUsersHandler}) => {
     return (
         <FormControl fullWidth>
-            <InputLabel htmlFor="search">Найти пользователей</InputLabel>
-            <Input id="search"/>
+            <InputLabel htmlFor='search'>Найти пользователей</InputLabel>
+            <Input id='search' onChange={(e) => searchUsersHandler(e.target.value)}/>
         </FormControl>
     )
 }
