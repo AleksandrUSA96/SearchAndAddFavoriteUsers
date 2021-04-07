@@ -6,8 +6,6 @@ const Highlight = (props) => {
     const regexp = new RegExp(matchSubString, 'ig')
     const matchValue = str.match(regexp)
     if (matchValue) {
-        console.log('matchValue', matchValue)
-        console.log('str.split(regexp)', str.split(regexp))
         return str.split(regexp).map((s, index, array) => {
             if (index < array.length - 1) {
                 const c = matchValue.shift()

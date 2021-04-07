@@ -19,6 +19,10 @@ const UserPage = () => {
     const [matchSubString, setMatchSubString] = useState();
     // const [isFetching, setToggleFetching] = useState(false);
 
+    useEffect(() => {
+        getUsersGroups();
+    }, []);
+
     const handleChangePage = (e, page) => {
         setPage(page);
         console.log(filteredUsers.length);
@@ -59,10 +63,6 @@ const UserPage = () => {
         }, userGroup);
         return userGroup;
     }
-
-    useEffect(() => {
-        getUsersGroups();
-    }, []);
 
     const dragStartHandler = (e, objectUserWithGroupId) => {
         setFavoriteUser(objectUserWithGroupId);

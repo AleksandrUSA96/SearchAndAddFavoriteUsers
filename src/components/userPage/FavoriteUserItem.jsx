@@ -3,13 +3,13 @@ import {Avatar, Box} from '@material-ui/core';
 import Style from './FavoriteUserItem.module.css';
 import {useStyles} from '../common/useStyles';
 
-const FavoriteUserItem = ({user, onDragStartItemHandler, onDropSwapUsersInState}) => {
+const FavoriteUserItem = ({user, dragStartItemHandler, dropSwapUsersInState}) => {
     const classes = useStyles();
     return (
         <Box className={[Style.item, classes.favoriteUserItem]} draggable={true} my={1} p={1} border={1}
              borderColor={'grey.200'}
-             onDragStart={(e) => onDragStartItemHandler(user)}
-             onDrop={(e) => onDropSwapUsersInState(e, user)}
+             onDragStart={(e) => dragStartItemHandler(user)}
+             onDrop={(e) => dropSwapUsersInState(e, user)}
         >
             <Box mr={1}>
                 <Avatar src={user.picture.thumbnail}/>

@@ -25,8 +25,20 @@ const FavoriteUsersList = ({favoriteUser}) => {
     const [currentItem, setCurrentItem] = useState();
     const [state, distpatch] = useReducer(reducer, []);
 
-    const onDragStartItemHandler = (item) => {
+    const dragStartItemHandler = (item) => {
         setCurrentItem(item);
+    }
+
+    const dropSwapUsersInState = (e, dropUser) => {
+        if (currentItem) {
+            const currentItemIndex = state.indexOf(currentItem);
+            const dropUserIndex = state.indexOf(dropUser);
+            state.splice(dropUserIndex, 1, currentItem);
+            state.splice(currentItemIndex, 1, dropUser);
+            distpatch({type: 'changeUser', payload: state});
+            highlightWhite(e);
+            setCurrentItem(null);
+        }
     }
 
     const highlightGrey = (e) => {
@@ -48,18 +60,6 @@ const FavoriteUsersList = ({favoriteUser}) => {
             highlightWhite(e);
             const favoriteList = document.getElementById('favoriteList');
             favoriteList.style.boxShadow = 'none';
-        }
-    }
-
-    const onDropSwapUsersInState = (e, dropUser) => {
-        if (currentItem) {
-            const currentItemIndex = state.indexOf(currentItem);
-            const dropUserIndex = state.indexOf(dropUser);
-            state.splice(dropUserIndex, 1, currentItem);
-            state.splice(currentItemIndex, 1, dropUser);
-            distpatch({type: 'changeUser', payload: state});
-            highlightWhite(e);
-            setCurrentItem(null);
         }
     }
 
@@ -95,8 +95,8 @@ const FavoriteUsersList = ({favoriteUser}) => {
                 {state.length !== 0 ?
                     state.map(user => <FavoriteUserItem user={user}
                                                         key={user.login.uuid}
-                                                        onDragStartItemHandler={onDragStartItemHandler}
-                                                        onDropSwapUsersInState={onDropSwapUsersInState}
+                                                        dragStartItemHandler={dragStartItemHandler}
+                                                        dropSwapUsersInState={dropSwapUsersInState}
                     />)
                     : 'Перетащите пользователя, чтобы добавить в избранные'}
             </Box>

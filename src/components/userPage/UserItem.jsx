@@ -11,7 +11,7 @@ const UserItem = ({user, id, idGroup, matchSubString}) => {
         dragOverHandler
     } = useContext(UserContext);
 
-    const boldSubString = useCallback((str) => {
+    const getBoldSubString = useCallback((str) => {
         return <Highlight matchSubString={matchSubString} str={str}/>
     }, [matchSubString]);
 
@@ -29,7 +29,7 @@ const UserItem = ({user, id, idGroup, matchSubString}) => {
             </Box>
             <div>
                 <Box align={'left'}
-                     fontSize={14}>{user.name.title} {boldSubString(user.name.first)} {boldSubString(user.name.last)},
+                     fontSize={14}>{user.name.title} {getBoldSubString(user.name.first)} {getBoldSubString(user.name.last)},
                     дата регистрации: {user.registered.date.slice(0, 10)} </Box>
                 <Box align={'left'} fontSize={14}>Email: {user.email}</Box>
             </div>
