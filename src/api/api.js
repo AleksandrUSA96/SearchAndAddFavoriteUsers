@@ -7,7 +7,7 @@ import * as axios from "axios";
 // let randomNumber = getRandomNumber();
 
 const instance = axios.create({
-    baseURL: `https://randomuser.me/api/?nat=us&results=1000&seed=foobar&inc=name,email,login,picture,registered`
+    baseURL: `https://randomuser.me/api/?nat=us&results=5000&seed=foobar&inc=name,email,login,picture,registered`
 })
 
 export const getUsers = async () => {

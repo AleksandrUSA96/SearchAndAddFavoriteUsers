@@ -1,14 +1,13 @@
-import React from "react";
-import {Avatar, Box} from "@material-ui/core";
+import React from 'react';
+import {Avatar, Box} from '@material-ui/core';
 import Style from './FavoriteUserItem.module.css';
+import {useStyles} from '../common/useStyles';
 
 const FavoriteUserItem = ({user, onDragStartItemHandler, onDropSwapUsersInState}) => {
+    const classes = useStyles();
     return (
-        <Box className={Style.item} style={{cursor: 'pointer'}} draggable={true} display={'flex'} direction={'row'}
-             alignItems={'center'}
-             border={1}
+        <Box className={[Style.item, classes.favoriteUserItem]} draggable={true} my={1} p={1} border={1}
              borderColor={'grey.200'}
-             borderRadius={5} my={1} p={1}
              onDragStart={(e) => onDragStartItemHandler(user)}
              onDrop={(e) => onDropSwapUsersInState(e, user)}
         >

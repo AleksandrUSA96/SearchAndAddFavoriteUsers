@@ -1,9 +1,9 @@
-import React, {useContext, useReducer, useState} from "react";
-import {Box} from "@material-ui/core";
-import UserContext from "../../UserContext";
-import FavoriteUserItem from "./FavoriteUserItem";
+import React, {useContext, useReducer, useState} from 'react';
+import {Box} from '@material-ui/core';
+import UserContext from '../../UserContext';
+import FavoriteUserItem from './FavoriteUserItem';
 import Style from './FavoriteUserItem.module.css';
-import {useStyles} from "../common/useStyles";
+import {useStyles} from '../common/useStyles';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -19,7 +19,7 @@ const reducer = (state, action) => {
     }
 }
 
-const FavoriteUsersList = ({rer}) => {
+const FavoriteUsersList = ({favoriteUser}) => {
     const classes = useStyles();
     const {dragDropHandler} = useContext(UserContext);
     const [currentItem, setCurrentItem] = useState();
@@ -29,17 +29,23 @@ const FavoriteUsersList = ({rer}) => {
         setCurrentItem(item);
     }
 
-    const dropHandler = (e, rer) => {
-        if (rer !== null) {
-            dragDropHandler(e, rer)
-            distpatch({type: 'addUser', payload: rer.user});
+    const highlightGrey = (e) => {
+        let eTargetParent = e.target.closest('.' + Style.item)
+        if (e.target.classList.contains(Style.item)) e.target.style.backgroundColor = '#eeeeee';
+        if (eTargetParent) eTargetParent.style.backgroundColor = '#eeeeee';
+    }
 
-            let eTargetParent = e.target.closest('.' + Style.item)
-            if (e.target.classList.contains(Style.item)) {
-                e.target.style.backgroundColor = '#ffffff';
-            }
-            if (eTargetParent) eTargetParent.style.backgroundColor = '#ffffff';
+    const highlightWhite = (e) => {
+        let eTargetParent = e.target.closest('.' + Style.item)
+        if (e.target.classList.contains(Style.item)) e.target.style.backgroundColor = '#ffffff';
+        if (eTargetParent) eTargetParent.style.backgroundColor = '#ffffff';
+    }
 
+    const dropHandler = (e, favoriteUser) => {
+        if (favoriteUser !== null) {
+            dragDropHandler(e, favoriteUser)
+            distpatch({type: 'addUser', payload: favoriteUser.user});
+            highlightWhite(e);
             const favoriteList = document.getElementById('favoriteList');
             favoriteList.style.boxShadow = 'none';
         }
@@ -52,28 +58,18 @@ const FavoriteUsersList = ({rer}) => {
             state.splice(dropUserIndex, 1, currentItem);
             state.splice(currentItemIndex, 1, dropUser);
             distpatch({type: 'changeUser', payload: state});
-            let eTargetParent = e.target.closest('.' + Style.item)
-            e.target.style.backgroundColor = '#ffffff';
-            eTargetParent.style.backgroundColor = '#ffffff';
+            highlightWhite(e);
             setCurrentItem(null);
         }
     }
 
     const dragOverHandler = (e) => {
         e.preventDefault();
-        let eTargetParent = e.target.closest('.' + Style.item)
-        if (e.target.classList.contains(Style.item)) {
-            e.target.style.backgroundColor = '#eeeeee';
-        }
-        if (eTargetParent) eTargetParent.style.backgroundColor = '#eeeeee';
+        highlightGrey(e);
     }
 
     const dragLeaveHandler = (e) => {
-        let eTargetParent = e.target.closest('.' + Style.item)
-        if (e.target.classList.contains(Style.item)) {
-            e.target.style.backgroundColor = '#ffffff';
-        }
-        if (eTargetParent) eTargetParent.style.backgroundColor = '#ffffff';
+        highlightWhite(e);
     }
 
     const dragEndHandler = (e) => {
@@ -81,10 +77,11 @@ const FavoriteUsersList = ({rer}) => {
     }
 
     return (
-        <Box width="50%">
+        <Box width='50%'>
+            {/* Стили применены из Material UI */}
             <Box display={'flex'} alignItems={'center'} border={1}
                  borderColor={'grey.200'}
-                 px={2} py={1.4} fontFamily="Roboto, Helvetica, Arial, sans-serif" lineHeight={1.75}>
+                 px={2} py={1.4} fontFamily='Roboto, Helvetica, Arial, sans-serif' lineHeight={1.75}>
                 Избранные пользователи
             </Box>
             <Box id={'favoriteList'} className={classes.flexDirection} display={'flex'} border={1}
@@ -93,15 +90,15 @@ const FavoriteUsersList = ({rer}) => {
                  onDragOver={(e) => dragOverHandler(e)}
                  onDragEnd={(e) => dragEndHandler(e)}
                  onDragLeave={(e) => dragLeaveHandler(e)}
-                 onDrop={(e) => dropHandler(e, rer)}
+                 onDrop={(e) => dropHandler(e, favoriteUser)}
             >
-                {state ?
+                {state.length !== 0 ?
                     state.map(user => <FavoriteUserItem user={user}
                                                         key={user.login.uuid}
                                                         onDragStartItemHandler={onDragStartItemHandler}
                                                         onDropSwapUsersInState={onDropSwapUsersInState}
                     />)
-                    : ''}
+                    : 'Перетащите пользователя, чтобы добавить в избранные'}
             </Box>
         </Box>
     )
