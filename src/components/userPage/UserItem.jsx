@@ -20,7 +20,7 @@ const UserItem = ({user, id, idGroup, matchSubString}) => {
     return (
         <Box draggable={true} className={classes.favoriteUserItem}
              border={1} borderColor={'grey.200'} borderRadius={5} my={1} p={1}
-             onDragStart={(e) => dragStartHandler(e, {user, id, idGroup})}
+             onDragStart={(e) => dragStartHandler(e, {user, id, idGroup}, '')}
              onDragOver={(e) => dragOverHandler(e)}
              onDragEnd={(e) => dragEndHandler(e)}
         >

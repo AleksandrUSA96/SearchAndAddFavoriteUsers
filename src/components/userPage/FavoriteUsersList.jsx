@@ -2,8 +2,8 @@ import React, {useContext, useReducer, useState} from 'react';
 import {Box} from '@material-ui/core';
 import UserContext from '../../UserContext';
 import FavoriteUserItem from './FavoriteUserItem';
-import Style from './FavoriteUserItem.module.css';
 import {useStyles} from '../common/useStyles';
+import {highlightGrey, highlightWhite} from "../common/HighlightEffectForItems";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -39,18 +39,6 @@ const FavoriteUsersList = ({favoriteUser}) => {
             highlightWhite(e);
             setCurrentItem(null);
         }
-    }
-
-    const highlightGrey = (e) => {
-        let eTargetParent = e.target.closest('.' + Style.item)
-        if (e.target.classList.contains(Style.item)) e.target.style.backgroundColor = '#eeeeee';
-        if (eTargetParent) eTargetParent.style.backgroundColor = '#eeeeee';
-    }
-
-    const highlightWhite = (e) => {
-        let eTargetParent = e.target.closest('.' + Style.item)
-        if (e.target.classList.contains(Style.item)) e.target.style.backgroundColor = '#ffffff';
-        if (eTargetParent) eTargetParent.style.backgroundColor = '#ffffff';
     }
 
     const dropHandler = (e, favoriteUser) => {
